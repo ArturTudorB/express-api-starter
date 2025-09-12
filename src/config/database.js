@@ -24,6 +24,11 @@ CREATE TABLE IF NOT EXISTS pizzas (
   created_at TEXT DEFAULT (datetime('now')),
   updated_at TEXT DEFAULT (datetime('now'))
 );
+
+CREATE TABLE IF NOT EXISTS ingredients (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,);
+
 `;
 
 db.serialize(() => {

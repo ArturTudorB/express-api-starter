@@ -2,6 +2,7 @@
 const db = require('../config/database');
 
 class Pizza {
+
     static create({ name, description, imageUrl, price }) {
         const sql = `INSERT INTO pizzas (name, description, imageUrl, price, created_at, updated_at)
                  VALUES (?, ?, ?, ?, datetime('now'), datetime('now'))`;
