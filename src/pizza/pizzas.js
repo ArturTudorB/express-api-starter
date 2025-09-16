@@ -5,6 +5,7 @@ const pizzaController = require('./pizzaController');
 
 const router = express.Router();
 
+
 /**
  * @openapi
  * /api/pizzas:
@@ -35,7 +36,7 @@ const router = express.Router();
  *                 type: number
  *     responses:
  *       201:
- *         description: pizza created
+ *         description: Pizza created
  *       400:
  *         description: Invalid input
  */
@@ -55,7 +56,7 @@ const router = express.Router();
  *       200:
  *         description: A single pizza
  *       404:
- *         description: pizza not found
+ *         description: Pizza not found
  *   put:
  *     summary: Update a pizza by ID
  *     parameters:
@@ -81,11 +82,11 @@ const router = express.Router();
  *                 type: number
  *     responses:
  *       200:
- *         description: pizza updated
+ *         description: Pizza updated
  *       400:
  *         description: Invalid input
  *       404:
- *         description: pizza not found
+ *         description: Pizza not found
  *   delete:
  *     summary: Delete a pizza by ID
  *     parameters:
@@ -96,14 +97,15 @@ const router = express.Router();
  *           type: integer
  *     responses:
  *       204:
- *         description: pizza deleted
+ *         description: Pizza deleted
  *       404:
- *         description: pizza not found
+ *         description: Pizza not found
  */
 
 /**
  * Validation rules
  */
+
 const createAndUpdateValidations = [
     body('name').isString().notEmpty().withMessage('name is required'),
     body('description').optional().isString(),

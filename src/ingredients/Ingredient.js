@@ -2,19 +2,18 @@ const db = require('../config/database');
 
 class Ingredient {
 
-    static create({ name }) {
-        if (!name) {
-            return Promise.reject(new Error('Le nom est obligatoire'));
+    static create({ name, price }) {
+        if (!name || price === undefined) {
+            return Promise.reject(new Error('Le nom et le prix sont obligatoires'));
         }
 
-        const sql = `INSERT INTO ingredients (name, created_at, updated_at)
-                     VALUES (?, datetime('now'), datetime('now'))`;
-        const params = [name];
+        const sql = `INSERT INTO ingredients (name, price, created_at, updated_at)
+                     VALUES (?, ?, datetime('now'), datetime('now'))`;
+        const params = [name, price];
 
         return new Promise((resolve, reject) => {
             db.run(sql, params, function (err) {
                 if (err) return reject(err);
-                // fetch created row
                 Ingredient.findById(this.lastID).then(resolve).catch(reject);
             });
         });
@@ -37,14 +36,15 @@ class Ingredient {
             });
         });
     }
-    static update(id, { name }) {
+    static update(id, { name, price }) {
         const sql = `
-      UPDATE ingredients
-      SET name = COALESCE(?, name),
-          updated_at = datetime('now')
-      WHERE id = ?
-    `;
-        const params = [name, id];
+            UPDATE ingredients
+            SET name = COALESCE(?, name),
+                price = COALESCE(?, price),
+                updated_at = datetime('now')
+            WHERE id = ?
+        `;
+        const params = [name, price, id];
 
         return new Promise((resolve, reject) => {
             db.run(sql, params, function (err) {

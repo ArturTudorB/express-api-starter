@@ -1,7 +1,7 @@
 @startuml
 title Products API - Class Diagram
 
-class Product {
+class Pizza {
   +int id
   +string name
   +string description
@@ -16,7 +16,7 @@ class Product {
   +static delete(id) : Promise<number>
 }
 
-class ProductController {
+class PizzaController {
   +create(req, res)
   +findAll(req, res)
   +findOne(req, res)
@@ -25,14 +25,14 @@ class ProductController {
 }
 
 class Router {
-  +GET /api/products
-  +POST /api/products
-  +GET /api/products/:id
-  +PUT /api/products/:id
-  +DELETE /api/products/:id
+  +GET /api/pizzas
+  +POST /api/pizzas
+  +GET /api/pizzas/:id
+  +PUT /api/pizzas/:id
+  +DELETE /api/pizzas/:id
 }
 
-ProductController -- Product : uses >
-Router --> ProductController : routes to >
+PizzaController -- Pizza : uses >
+Router --> PizzaController : routes to >
 
 @enduml

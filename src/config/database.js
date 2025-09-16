@@ -14,27 +14,40 @@ const db = new sqlite3.Database(dbFile, (err) => {
 });
 
 // Initialize pizzas table if not exists
-const initSql = `
+const pizzasTableSql = `
 CREATE TABLE IF NOT EXISTS pizzas (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT NOT NULL,
-  description TEXT,
-  imageUrl TEXT,
-  price REAL NOT NULL,
-  created_at TEXT DEFAULT (datetime('now')),
-  updated_at TEXT DEFAULT (datetime('now'))
-);
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+name TEXT NOT NULL,
+description TEXT,
+imageUrl TEXT,
+price REAL NOT NULL,
+created_at TEXT DEFAULT (datetime('now')),
+updated_at TEXT DEFAULT (datetime('now'))
+        );
+`;
 
-CREATE TABLE IF NOT EXISTS ingredients (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT NOT NULL,);
-
+// Initialize ingredients table if not exists
+const ingredientsTableSql = `
+    CREATE TABLE IF NOT EXISTS ingredients (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+name TEXT NOT NULL,
+price REAL NOT NULL,
+created_at TEXT DEFAULT (datetime('now')),
+updated_at TEXT DEFAULT (datetime('now'))
+        );
 `;
 
 db.serialize(() => {
-    db.run(initSql, (err) => {
+    db.run(pizzasTableSql, (err) => {
         if (err) {
-            console.error('Failed to initialize database', err);
+            console.error('Failed to create pizzas table', err);
+            process.exit(1);
+        }
+    });
+
+    db.run(ingredientsTableSql, (err) => {
+        if (err) {
+            console.error('Failed to create ingredients table', err);
             process.exit(1);
         }
     });

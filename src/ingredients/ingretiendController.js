@@ -3,17 +3,17 @@ const Ingredient = require('./Ingredient');
 
 exports.create = async (req, res, next) => {
     try {
-        // validation result
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            // 400 Bad Request for validation problems
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { name } = req.body;
-        const created = await Ingredient.create({ name });
-        // 201 Created
-        return res.status(201).json(created);
+        const ingredients = Array.isArray(req.body) ? req.body : [req.body];
+        const createdIngredients = await Promise.all(
+            ingredients.map(({ name, price }) => Ingredient.create({ name, price }))
+        );
+
+        return res.status(201).json(createdIngredients);
     } catch (err) {
         next(err);
     }
