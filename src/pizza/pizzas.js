@@ -107,10 +107,12 @@ const router = express.Router();
  */
 
 const createAndUpdateValidations = [
-    body('name').isString().notEmpty().withMessage('name is required'),
+    body('name').isString().withMessage('Name must be a string').notEmpty(),
+    body('price').isFloat({ gt: 0 }).withMessage('Price must be a positive number'),
     body('description').optional().isString(),
-    body('imageUrl').optional().isString().isURL().withMessage('imageUrl must be a valid URL'),
-    body('price').isFloat({ gt: 0 }).withMessage('price must be a positive number'),
+    body('imageUrl').optional().isURL(),
+    body('ingredientIds').optional().isArray().withMessage('IngredientIds must be an array'),
+    body('ingredientIds.*').isInt({ gt: 0 }).withMessage('Each ingredient ID must be a positive integer'),
 ];
 
 router.get('/', pizzaController.findAll);

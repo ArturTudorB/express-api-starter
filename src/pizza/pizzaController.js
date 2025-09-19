@@ -9,16 +9,13 @@ const Pizza = require('./Pizza');
 
 exports.create = async (req, res, next) => {
     try {
-        // validation result
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            // 400 Bad Request for validation problems
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { name, description, imageUrl, price } = req.body;
-        const created = await Pizza.create({ name, description, imageUrl, price });
-        // 201 Created
+        const { name, description, imageUrl, price, ingredientIds } = req.body;
+        const created = await Pizza.create({ name, description, imageUrl, price, ingredientIds });
         return res.status(201).json(created);
     } catch (err) {
         next(err);
@@ -51,7 +48,6 @@ exports.findOne = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
     try {
-        // validation result
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
@@ -60,9 +56,9 @@ exports.update = async (req, res, next) => {
         const id = Number(req.params.id);
         if (Number.isNaN(id)) return res.status(400).json({ error: 'Invalid pizza id' });
 
-        const { name, description, imageUrl, price } = req.body;
-        const updated = await Pizza.update(id, { name, description, imageUrl, price });
-        if (!updated) return res.status(404).json({ error: 'Pizza not found' }); // 404 Not Found
+        const { name, description, imageUrl, price, ingredientIds } = req.body;
+        const updated = await Pizza.update(id, { name, description, imageUrl, price, ingredientIds });
+        if (!updated) return res.status(404).json({ error: 'Pizza not found' });
 
         return res.status(200).json(updated);
     } catch (err) {
